@@ -1,5 +1,4 @@
-/*This trigger is designed to log all modifications to the "Sales.Customers" table. 
-What this trigger does is it records all deletions, updates, insertions, modification dates as well as and the user who made the alterations. 
+/*This trigger is designed to log all modifications to the "Sales.Customers" table. What this trigger does is it records all deletions, updates, insertions, modification dates as well as and the user who made the alterations. 
 This is all inserted into the "dbo.Customers_Audit" table
 */
 
@@ -10,7 +9,6 @@ SET ANSI_NULLS ON
 GO
 SET QUOTED_IDENTIFIER ON
 GO
-
 IF OBJECT_ID('Sales.CustomersTrigger') IS NOT NULL
 DROP TRIGGER Sales.CustomersTrigger
 GO
@@ -20,8 +18,7 @@ CREATE TRIGGER Sales.CustomersTrigger
    ON Sales.Customers
    AFTER INSERT, DELETE, UPDATE
    AS
-    BEGIN
-	   /*These declared variables will hold the old and new data extracted from the "inserted" and "deleted" tables.*/
+    BEGIN	   /*These declared variables will hold the old and new data extracted from the "inserted" and "deleted" tables.*/
 	   DECLARE @Old_CustomerID INT
 	   DECLARE @Old_NameOfCompany VARCHAR(40)
 	   DECLARE @Old_ContactName VARCHAR(30)
@@ -76,7 +73,7 @@ CREATE TRIGGER Sales.CustomersTrigger
 	   SELECT @New_Phone = Phone FROM inserted
 	   SELECT @New_Fax = Fax FROM inserted
 
-/*This insert statement places the approrriate data into the columns, the data comes from the values statement below which gets its data
+/*This insert statement places the appropriate data into the columns, the data comes from the values statement below which gets its data
 	from the variables above after the data has been inserted into them from the inserted and deleted tables. When this data is output to the 
 	user, it will show the old and new values when column data is updated as well as the timestamp and the user who performed the alterations.*/
 	   INSERT INTO dbo.Customers_Audit (LastUpdateTime, Old_CustomerID, New_CustomerID, Old_NameOfCompany, New_NameOfCompany,
